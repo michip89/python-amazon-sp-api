@@ -126,13 +126,14 @@ class ProductFees(Client):
                 marketplace_id: str | Defaults to self.marketplace_id
                 optional_fulfillment_program:
         """
+        estimate_requests_copy = [dict(e) for e in estimate_requests]
         data = [
             dict(
                 IdType = er.pop('id_type'),
                 IdValue = er.pop('id_value'),
                 **self._create_body(**er)
             )
-            for er in estimate_requests
+            for er in estimate_requests_copy
         ]
         return self._request('/products/fees/v0/feesEstimate', data=data, params=dict(method='POST'), wrap_list=True)
 
